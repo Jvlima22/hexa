@@ -215,9 +215,9 @@ export default function CartModal() {
                       />
                     </div>
                   </div>
-                  <form action={redirectToCheckout}>
-                    <CheckoutButton />
-                  </form>
+                  <div className="pt-4">
+                    <CheckoutButton cart={cart} />
+                  </div>
                 </div>
               )}
             </Dialog.Panel>
@@ -241,16 +241,49 @@ function CloseCart({ className }: { className?: string }) {
   );
 }
 
-function CheckoutButton() {
-  const { pending } = useFormStatus();
+function CheckoutButton({ cart }: { cart: any }) {
+  const [pending, setPending] = useState(false);
+
+  async function handleCheckout() {
+    try {
+      setPending(true);
+      // Mapeando itens do formato do Cart Context para o formato útil da nossa API
+      const items = cart.lines.map((line: any) => ({
+        id: line.merchandise.id || line.id,
+        title: line.merchandise.product.title || "Produto",
+        quantity: line.quantity,
+        price: line.cost.totalAmount.amount,
+      }));
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+      });
+
+      const data = await res.json();
+      
+      if (data.init_point) {
+        // Redireciona o usuário para o gateway do Mercado Pago
+        window.location.href = data.init_point;
+      } else {
+        console.error("Falha ao gerar URL de pagamento:", data);
+        setPending(false);
+      }
+    } catch (e) {
+      console.error(e);
+      setPending(false);
+    }
+  }
 
   return (
     <button
       className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
-      type="submit"
+      type="button"
+      onClick={handleCheckout}
       disabled={pending}
     >
-      {pending ? <LoadingDots className="bg-white" /> : "Proceed to Checkout"}
+      {pending ? <LoadingDots className="bg-white" /> : "Finalizar Compra Seguro (MP)"}
     </button>
   );
 }
