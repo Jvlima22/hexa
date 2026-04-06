@@ -13,11 +13,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+
 
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
   img[loading="lazy"] {
@@ -26,7 +22,33 @@
 }
 
 a,
-input,
 button {
   @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50 dark:focus-visible:ring-neutral-600 dark:focus-visible:ring-offset-neutral-900;
+}
+
+/* Reset de Autofill e Borda de Foco Premium */
+.premium-input {
+  border: 1px solid #e5e5e5 !important;
+  background-color: #ffffff !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.premium-input:focus, 
+.premium-input:focus-visible,
+.premium-input:active {
+  border-color: #d4d4d4 !important; /* Cinza médio fino */
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Forçar fundo branco no preenchimento automático do Chrome (Autofill) */
+.premium-input:-webkit-autofill,
+.premium-input:-webkit-autofill:hover, 
+.premium-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #171717 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  border: 1px solid #e5e5e5 !important;
 }

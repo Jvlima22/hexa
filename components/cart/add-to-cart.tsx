@@ -3,7 +3,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { addItem } from "components/cart/actions";
-import { Product, ProductVariant } from "lib/shopify/types";
+import { Product, ProductVariant } from "lib/store/types";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import { useCart } from "./cart-context";
@@ -37,7 +37,7 @@ function SubmitButton({
         <div className="absolute left-0 ml-4">
           <PlusIcon className="h-5" />
         </div>
-        Add To Cart
+        Adicionar ao carrinho
       </button>
     );
   }
@@ -52,7 +52,7 @@ function SubmitButton({
       <div className="absolute left-0 ml-4">
         <PlusIcon className="h-5" />
       </div>
-      Add To Cart
+      Adicionar ao carrinho
     </button>
   );
 }

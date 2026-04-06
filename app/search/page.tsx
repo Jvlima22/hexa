@@ -1,11 +1,12 @@
+import { Metadata } from "next";
 import Grid from "components/grid";
 import ProductGridItems from "components/layout/product-grid-items";
 import { defaultSort, sorting } from "lib/constants";
-import { getProducts } from "lib/shopify";
+import { getProducts } from "lib/store";
 
-export const metadata = {
-  title: "Search",
-  description: "Search for products in the store.",
+export const metadata: Metadata = {
+  title: "Busca",
+  description: "Busque por produtos na loja.",
 };
 
 export default async function SearchPage(props: {
@@ -24,8 +25,8 @@ export default async function SearchPage(props: {
       {searchValue ? (
         <p className="mb-4">
           {products.length === 0
-            ? "There are no products that match "
-            : `Showing ${products.length} ${resultsText} for `}
+            ? "Não foram encontrados produtos que correspondam a "
+            : `Mostrando ${products.length} ${resultsText} para `}
           <span className="font-bold">&quot;{searchValue}&quot;</span>
         </p>
       ) : null}

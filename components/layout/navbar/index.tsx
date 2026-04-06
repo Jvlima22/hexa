@@ -1,11 +1,13 @@
+import { UserIcon } from "@heroicons/react/24/outline";
 import CartModal from "components/cart/modal";
 import LogoSquare from "components/logo-square";
-import { getMenu } from "lib/shopify";
-import { Menu } from "lib/shopify/types";
+import { getMenu } from "lib/store";
+import type { Menu } from "lib/store/types";
 import Link from "next/link";
 import { Suspense } from "react";
 import MobileMenu from "./mobile-menu";
 import Search, { SearchSkeleton } from "./search";
+import AccountModal from "components/auth/account-modal";
 
 const { SITE_NAME } = process.env;
 
@@ -52,7 +54,8 @@ export async function Navbar() {
             <Search />
           </Suspense>
         </div>
-        <div className="flex justify-end md:w-1/3">
+        <div className="flex items-center justify-end gap-3 md:w-1/3 px-2">
+          <AccountModal />
           <CartModal />
         </div>
       </div>

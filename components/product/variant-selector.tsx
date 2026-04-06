@@ -48,7 +48,7 @@ export function VariantSelector({
   return options.map((option) => (
     <form key={option.id}>
       <dl className="mb-8">
-        <dt className="mb-4 text-sm uppercase tracking-wide">{option.name}</dt>
+        <dt className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-500">{option.name}</dt>
         <dd className="flex flex-wrap gap-3">
           {option.values.map((value) => {
             const optionNameLowerCase = option.name.toLowerCase();
@@ -83,14 +83,14 @@ export function VariantSelector({
                 key={value}
                 aria-disabled={!isAvailableForSale}
                 disabled={!isAvailableForSale}
-                title={`${option.name} ${value}${!isAvailableForSale ? " (Out of Stock)" : ""}`}
+                title={`${option.name} ${value}${!isAvailableForSale ? " (Indisponível)" : ""}`}
                 className={clsx(
-                  "flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm dark:border-neutral-800 dark:bg-neutral-900",
+                  "flex min-w-[56px] h-11 items-center justify-center rounded-xl border bg-white px-3 text-sm font-bold transition-all duration-200",
                   {
-                    "cursor-default ring-2 ring-blue-600": isActive,
-                    "ring-1 ring-transparent transition duration-300 ease-in-out hover:ring-blue-600":
+                    "cursor-default border-blue-600 ring-2 ring-blue-600/20 text-blue-600": isActive,
+                    "border-neutral-200 text-black hover:border-black hover:bg-neutral-50":
                       !isActive && isAvailableForSale,
-                    "relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform dark:bg-neutral-900 dark:text-neutral-400 dark:ring-neutral-700 dark:before:bg-neutral-700":
+                    "relative z-10 cursor-not-allowed opacity-40 bg-neutral-50 text-neutral-400 border-neutral-100 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300":
                       !isAvailableForSale,
                   },
                 )}

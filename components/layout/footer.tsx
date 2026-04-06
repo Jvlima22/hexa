@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import FooterMenu from "components/layout/footer-menu";
 import LogoSquare from "components/logo-square";
-import { getMenu } from "lib/shopify";
+import { getMenu } from "lib/store";
 import { Suspense } from "react";
 
 const { COMPANY_NAME, SITE_NAME } = process.env;
@@ -60,15 +60,11 @@ export default async function Footer() {
             {copyrightName.length && !copyrightName.endsWith(".")
               ? "."
               : ""}{" "}
-            All rights reserved.
-          </p>
-          <hr className="mx-4 hidden h-4 w-[1px] border-l border-neutral-400 md:inline-block" />
-          <p>
-            <a href="https://github.com/vercel/commerce">View the source</a>
+            Todos os direitos reservados.
           </p>
           <p className="md:ml-auto">
             <a href="https://vercel.com" className="text-black dark:text-white">
-              Created by ▲ Vercel
+              Criado por TGL Soluções
             </a>
           </p>
         </div>
