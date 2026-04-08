@@ -3,6 +3,19 @@
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --color-brand-primary: #00843d;
+  --color-brand-secondary: #0D7D59;
+  --color-brand-accent: #ffd100;
+  --color-brand-green-light: #00a94f;
+  --color-brand-gold: #c8a951;
+}
+
+@keyframes move-forever {
+  0% { transform: translate3d(-90px, 0, 0); }
+  100% { transform: translate3d(85px, 0, 0); }
+}
+
 @layer base {
   *,
   ::after,
@@ -12,8 +25,6 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
-
-
 
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
   img[loading="lazy"] {
@@ -32,20 +43,22 @@ button {
   background-color: #ffffff !important;
   outline: none !important;
   box-shadow: none !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease !important;
 }
 
-.premium-input:focus, 
+.premium-input:focus,
 .premium-input:focus-visible,
 .premium-input:active {
-  border-color: #d4d4d4 !important; /* Cinza médio fino */
+  border-color: #0D7D59 !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
 /* Forçar fundo branco no preenchimento automático do Chrome (Autofill) */
 .premium-input:-webkit-autofill,
-.premium-input:-webkit-autofill:hover, 
+.premium-input:-webkit-autofill:hover,
 .premium-input:-webkit-autofill:focus {
   -webkit-text-fill-color: #171717 !important;
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;

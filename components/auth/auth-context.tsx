@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import type { User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 type AuthContextType = {
   user: User | null;
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     // Busca a sessão atual com maior prioridade para OAuth
@@ -40,10 +42,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.log("Auth Event:", event, session?.user ? "User detected" : "No user");
       setUser(session?.user ?? null);
       setLoading(false);
+      
+      if (event === "SIGNED_OUT") {
+        router.refresh();
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [router]);
 
   const signOut = async () => {
     await supabase.auth.signOut();

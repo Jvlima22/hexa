@@ -5,31 +5,27 @@ import { toast } from "sonner";
 
 export function WelcomeToast() {
   useEffect(() => {
-    // ignore if screen height is too small
     if (window.innerHeight < 650) return;
-    if (!document.cookie.includes("welcome-toast=2")) {
-      toast("🛍️ Bem-vindo à Na Rede!", {
+    toast(
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <img
+          src="https://logodetimes.com/times/selecao-brasileira-brasil-novo-logo-2019/logo-selecao-brasileira-brasil-novo-logo-2019-4096.png"
+          alt="Logo"
+          style={{ width: "1.5em", height: "1.5em", objectFit: "contain" }}
+        />
+        <span>Bem-vindo ao NAREDE.com</span>
+      </div>,
+      {
         id: "welcome-toast",
         duration: Infinity,
-        onDismiss: () => {
-          document.cookie = "welcome-toast=2; max-age=31536000; path=/";
-        },
         description: (
           <>
-            Esta é uma loja de alto desempenho, com SSR, alimentada por Shopify,
-            Next.js e Vercel.{" "}
-            <a
-              href="https://vercel.com/templates/next.js/nextjs-commerce"
-              className="text-blue-600 hover:underline"
-              target="_blank"
-            >
-              Faça o deploy da sua própria loja
-            </a>
-            .
+            Sua loja oficial de camisas e uniformes da Seleção Brasileira, com
+            entrega rápida e segura.
           </>
         ),
-      });
-    }
+      },
+    );
   }, []);
 
   return null;

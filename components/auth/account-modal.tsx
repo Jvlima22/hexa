@@ -55,7 +55,7 @@ export default function AccountModal() {
         href="/login"
         prefetch={true}
         aria-label="Entrar"
-        className="relative flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors hover:border-neutral-400 hover:bg-neutral-50"
+        className="relative flex h-11 w-11 items-center justify-center rounded-md border border-white/40 text-white transition-colors hover:border-white hover:bg-white/20"
       >
         <UserIcon className="h-4 w-4" />
       </Link>
@@ -79,7 +79,7 @@ export default function AccountModal() {
       <button
         onClick={openModal}
         aria-label="Abrir menu da conta"
-        className="relative flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-all hover:border-neutral-400 hover:bg-neutral-50"
+        className="relative flex h-11 w-11 items-center justify-center rounded-md border border-white/40 text-white transition-all hover:border-white hover:bg-white/20"
       >
         {userAvatar ? (
           <img

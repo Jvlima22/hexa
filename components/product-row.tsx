@@ -121,7 +121,7 @@ export default function ProductRow({
                   <Link href={`/product/${product.handle}`} className="block">
                     <div className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100 border border-neutral-100 transition-all duration-500 group-hover/card:scale-[1.03] group-hover/card:shadow-xl group-hover/card:z-10">
                       {!isOutOfStock && (
-                        <span className="absolute top-3 left-3 z-10 bg-black text-white text-[10px] font-black px-2 py-1 rounded">
+                        <span className="absolute top-3 left-3 z-10 bg-brand-accent text-brand-secondary text-[10px] font-black px-2 py-1 rounded">
                           33% OFF
                         </span>
                       )}

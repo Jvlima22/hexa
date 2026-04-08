@@ -31,7 +31,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="pt-BR" className={GeistSans.variable}>
-      <body className="bg-white text-black selection:bg-teal-300">
+      <body className="bg-white text-black selection:bg-brand-accent">
         <AuthProvider>
           <CartProvider>
             <Navbar />

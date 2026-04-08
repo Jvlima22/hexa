@@ -11,7 +11,7 @@ export function ProductDescription({ product }: { product: Product }) {
         <h1 className="mb-4 text-4xl font-black uppercase tracking-tight text-black leading-tight">
           {product.title}
         </h1>
-        <div className="mr-auto w-auto rounded-full bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-blue-500/20">
+        <div className="mr-auto w-auto rounded-full bg-brand-secondary px-4 py-2 text-sm font-bold text-white shadow-lg shadow-brand-secondary/20">
           <Price
             amount={product.priceRange.maxVariantPrice.amount}
             currencyCode={product.priceRange.maxVariantPrice.currencyCode}
