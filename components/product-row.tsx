@@ -7,24 +7,51 @@ import {
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { GridTileImage } from "components/grid/tile";
-import { Product } from "lib/shopify/types";
+import { Product } from "lib/store/types";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ProductRowProps {
-  title: string;
+  products?: Product[];
+  title?: string;
   subtitle?: string;
-  products: Product[];
-  collectionPath: string;
+  collectionPath?: string;
+  collection?: string;
 }
 
 export default function ProductRow({
+  products: initialProducts,
   title,
   subtitle,
-  products,
+  collectionPath,
+  collection,
 }: ProductRowProps) {
+  const [products, setProducts] = useState<Product[]>(initialProducts || []);
+  const [loading, setLoading] = useState(!initialProducts && !!collection);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Busca produtos se uma coleção for informada e não houver produtos iniciais
+  useEffect(() => {
+    async function loadProducts() {
+      if (collection) {
+        setLoading(true);
+        // Se a categoria for 'todos', buscamos o catálogo completo
+        const fetchFn =
+          collection === "todos"
+            ? () => import("lib/store").then((m) => m.getProducts({}))
+            : () =>
+                import("lib/store").then((m) =>
+                  m.getCollectionProducts({ collection }),
+                );
+
+        const data = await fetchFn();
+        setProducts(data);
+        setLoading(false);
+      }
+    }
+    loadProducts();
+  }, [collection]);
 
   const showNavigation = products.length > 4;
 
@@ -64,21 +91,25 @@ export default function ProductRow({
         }
       `}</style>
 
-      <div className="max-w-[1440px] mx-auto px-4 md:px-6">
-        {/* Header Centralizado */}
-        <div className="text-center mb-6">
-          <h2 className="text-3xl md:text-5xl font-black text-black uppercase tracking-tight">
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="mt-2 text-sm md:text-base text-neutral-500 font-semibold tracking-wide">
-              {subtitle}
-            </p>
-          )}
-        </div>
+      <div className="max-w-[1440px] mx-auto px-8 md:px-10 lg:px-12">
+        {/* Novo Header Interno (Opcional) */}
+        {(title || subtitle) && (
+          <div className="flex flex-col items-start md:-ml-8 mt-4">
+            {title && (
+              <h3 className="text-lg md:text-2xl font-black text-black uppercase tracking-tight">
+                {title}
+              </h3>
+            )}
+            {subtitle && (
+              <p className="text-[10px] md:text-sm text-neutral-400 font-medium">
+                {subtitle}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Container do Scroll com Setas Laterais */}
-        <div className="relative group/nav -mx-8 md:-mx-12">
+        <div className="relative group/nav md:-mx-10 lg:-mx-12">
           {showNavigation && (
             <>
               <button
@@ -101,7 +132,7 @@ export default function ProductRow({
           <div
             ref={scrollRef}
             onScroll={handleScroll}
-            className="flex gap-2 overflow-x-auto pt-10 pb-8 px-8 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+            className="flex items-start gap-2 md:gap-2 overflow-x-auto pt-4 pb-8 px-8 md:px-10 lg:px-12 snap-x snap-mandatory scrollbar-hide scroll-smooth"
           >
             {products.map((product) => {
               const amount = parseInt(
@@ -116,10 +147,10 @@ export default function ProductRow({
               return (
                 <div
                   key={product.handle}
-                  className="min-w-[290px] md:min-w-[360px] p-4 pb-0 flex-none snap-start group/card overflow-visible"
+                  className="w-[78vw] sm:w-[60vw] md:w-[330px] pl-0 pr-2 py-2 md:p-3 flex-none snap-start group/card"
                 >
                   <Link href={`/product/${product.handle}`} className="block">
-                    <div className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100 border border-neutral-100 transition-all duration-500 group-hover/card:scale-[1.03] group-hover/card:shadow-xl group-hover/card:z-10">
+                    <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-neutral-100 border border-neutral-100 transition-all duration-500 group-hover/card:scale-[1.03] group-hover/card:shadow-xl group-hover/card:z-10">
                       {!isOutOfStock && (
                         <span className="absolute top-3 left-3 z-10 bg-brand-accent text-brand-secondary text-[10px] font-black px-2 py-1 rounded">
                           33% OFF
@@ -139,8 +170,8 @@ export default function ProductRow({
                       />
                     </div>
 
-                    <div className="mt-4 space-y-1">
-                      <h3 className="line-clamp-1 text-sm md:text-base font-bold text-neutral-800 group-hover/card:text-black">
+                    <div className="mt-4 flex flex-col gap-1 min-h-[100px]">
+                      <h3 className="line-clamp-2 text-sm md:text-base font-bold text-neutral-800 group-hover/card:text-black leading-tight">
                         {product.title}
                       </h3>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { ProductOption, ProductVariant } from "lib/shopify/types";
+import { ProductOption, ProductVariant } from "lib/store/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type Combination = {
@@ -46,19 +46,24 @@ export function VariantSelector({
   };
 
   return options.map((option) => (
-    <form key={option.id}>
-      <dl className="mb-8">
-        <dt className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-500">{option.name}</dt>
-        <dd className="flex flex-wrap gap-3">
+    <form key={option.id} className="mb-6">
+      <dl>
+        <dt className="mb-3 flex items-center gap-2">
+          <span className="text-xs font-black uppercase tracking-widest text-black">
+            {option.name}
+          </span>
+          <span className="text-xs text-neutral-400 font-medium">
+            — Selecione um tamanho
+          </span>
+        </dt>
+        <dd className="flex flex-wrap gap-2">
           {option.values.map((value) => {
             const optionNameLowerCase = option.name.toLowerCase();
 
-            // Base option params on current searchParams so we can preserve any other param state.
             const optionParams: Record<string, string> = {};
             searchParams.forEach((v, k) => (optionParams[k] = v));
             optionParams[optionNameLowerCase] = value;
 
-            // Filter out invalid options and check if the option combination is available for sale.
             const filtered = Object.entries(optionParams).filter(
               ([key, value]) =>
                 options.find(
@@ -74,7 +79,6 @@ export function VariantSelector({
               ),
             );
 
-            // The option is active if it's in the selected options.
             const isActive = searchParams.get(optionNameLowerCase) === value;
 
             return (
@@ -85,16 +89,26 @@ export function VariantSelector({
                 disabled={!isAvailableForSale}
                 title={`${option.name} ${value}${!isAvailableForSale ? " (Indisponível)" : ""}`}
                 className={clsx(
-                  "flex min-w-[56px] h-11 items-center justify-center rounded-xl border bg-white px-3 text-sm font-bold transition-all duration-200",
+                  "relative flex min-w-[52px] h-12 items-center justify-center rounded-xl border-2 px-4 text-sm font-black transition-all duration-200 select-none",
                   {
-                    "cursor-default border-blue-600 ring-2 ring-blue-600/20 text-blue-600": isActive,
-                    "border-neutral-200 text-black hover:border-black hover:bg-neutral-50":
+                    // Ativo — verde da seleção brasileira
+                    "border-green-600 bg-green-600 text-white shadow-lg shadow-green-600/20 scale-105":
+                      isActive,
+                    // Disponível
+                    "border-neutral-200 bg-white text-black hover:border-green-600 hover:text-green-700 hover:shadow-md cursor-pointer":
                       !isActive && isAvailableForSale,
-                    "relative z-10 cursor-not-allowed opacity-40 bg-neutral-50 text-neutral-400 border-neutral-100 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300":
+                    // Indisponível — riscado
+                    "relative cursor-not-allowed opacity-40 bg-neutral-50 text-neutral-400 border-neutral-100 overflow-hidden":
                       !isAvailableForSale,
                   },
                 )}
               >
+                {/* Linha diagonal para tamanho esgotado */}
+                {!isAvailableForSale && (
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <span className="absolute w-full h-px bg-neutral-400 rotate-45 origin-center" />
+                  </span>
+                )}
                 {value}
               </button>
             );

@@ -16,7 +16,7 @@ export default function HeroVideo() {
   }, []);
 
   return (
-    <div className="relative w-full h-[100dvh] md:h-[70vh] lg:h-[85vh] overflow-hidden bg-black select-none pointer-events-none mb-8 md:mb-12">
+    <div className="relative w-full h-[100dvh] md:h-screen overflow-hidden bg-black select-none pointer-events-none">
       
       {/* Overlay de Gradiente Suave para Manter Elegância */}
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/20 via-transparent to-black/30" />

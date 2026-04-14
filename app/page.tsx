@@ -1,5 +1,4 @@
-import { Carousel } from "components/carousel";
-import { ThreeItemGrid } from "components/grid/three-items";
+import { CategoryGrid } from "components/grid/category-grid";
 import HeroVideo from "components/hero-video";
 import Footer from "components/layout/footer";
 import ProductRow from "components/product-row";
@@ -18,7 +17,7 @@ export default async function HomePage() {
   // Buscando produtos reais
   let products = await getCollectionProducts({ collection: "frontpage" });
 
-  // Fallback visual caso a Shopify esteja vazia agora
+  // Fallback visual caso a Shopify/Supabase esteja vazia agora
   if (!products || products.length === 0) {
     products = [
       {
@@ -98,15 +97,50 @@ export default async function HomePage() {
     <>
       <HeroVideo />
 
+      <section className="w-full pt-16 bg-white">
+        <div className="max-w-[1440px] mx-auto px-8 md:px-10 lg:px-12">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-5xl font-black text-black uppercase tracking-tight">
+              Rumo ao Hexa
+            </h2>
+            <p className="mt-2 text-sm md:text-base text-neutral-500 font-semibold tracking-wide">
+              Juntos em busca de um sonho!
+            </p>
+          </div>
+        </div>
+      </section>
+
       <ProductRow
-        title="Rumo ao Hexa"
-        subtitle="Juntos em busca de um sonho!"
-        products={products.slice(0, 12)}
+        title="Mantos da seleção brasileira"
+        subtitle="Confira os novos mantos oficiais"
+        collection="todos"
         collectionPath="/search/frontpage"
       />
 
-      <ThreeItemGrid />
-      <Carousel />
+      <CategoryGrid />
+
+      {/* Busca dinâmica por Categoria/Coleção no Supabase */}
+      <ProductRow
+        title="Mantos masculinos"
+        subtitle="O melhor da tecnologia Nike para eles"
+        collection="masculino"
+        collectionPath="/search/masculino"
+      />
+
+      <ProductRow
+        title="Mantos femininos"
+        subtitle="Estilo e performance para elas"
+        collection="feminino"
+        collectionPath="/search/feminino"
+      />
+
+      <ProductRow
+        title="Mantos infantis"
+        subtitle="Para os futuros craques do Brasil"
+        collection="infantil"
+        collectionPath="/search/infantil"
+      />
+
       <Footer />
     </>
   );
